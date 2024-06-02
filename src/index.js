@@ -1,10 +1,11 @@
-// buatkan simple api menggunakan hapi js
-require("dotenv").config();
+// setup dotenv
+import "dotenv/config";
 
 import Hapi from "@hapi/hapi";
 import route from "./routes/route";
 import Jwt from "hapi-auth-jwt2";
 import validate from "./auth/validate";
+import Inputrror from "./error/InputError";
 
 const init = async () => {
   const server = Hapi.server({
@@ -24,6 +25,16 @@ const init = async () => {
 
   server.ext("onPreResponse", function (request, h) {
     const response = request.response;
+
+    if (response instanceof Inputrror) {
+      const newResponse = h.response({
+        status: "fail",
+        message: "Invalid request payload input",
+      });
+      newResponse.code(413);
+      
+      return newResponse;
+    }
 
     if (response.isBoom) {
       const newResponse = h.response({
