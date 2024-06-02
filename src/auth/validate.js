@@ -1,5 +1,9 @@
+import Auth from "../services/auth/controller";
+
 const validate = async (decoded) => {
-  if (decoded.id != 1) {
+  const user = await Auth.findUser(decoded.id);
+
+  if (!user) {
     return { isValid: false };
   } else {
     return { isValid: true };
