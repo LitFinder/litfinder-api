@@ -7,7 +7,7 @@ const CheckUser = async (request, h) => {
   try {
     const { email, password } = request.payload;
     payload = { email, password };
-  } catch (error) {
+  } catch (error) {1
     throw new Inputrror();
   }
 

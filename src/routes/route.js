@@ -1,4 +1,5 @@
 import { CheckUser, RegisterUser } from "../services/auth/handler";
+import { GetBook } from "../services/book/handler";
 
 const route = [
   {
@@ -25,6 +26,11 @@ const route = [
     options: {
       auth: false,
     },
+  },
+  {
+    method: "GET",
+    path: "/book",
+    handler: GetBook,
   },
 ];
 
