@@ -7,6 +7,11 @@
 - [Account](#account)
   - [Register](#register)
   - [Login](#login)
+- [Book](#book)
+  - [Get All Book](#get-all-book)
+  - [Get Recommendation Book](#get-recommendation-book)
+- [Logging](#logging)
+  - [Insert Log User](#insert-log-user)
 
 ## Start Project
 
@@ -312,5 +317,51 @@ POST /recommendation
       ]
     }
   ]
+}
+```
+
+## Logging
+
+> Need `token` to access API
+
+### Insert Log User
+
+- Headers
+
+```http
+Authorization: <Token>
+Content-Type: application/json
+```
+
+- Path
+
+```http
+POST /log
+```
+
+- Body Request
+
+```javascript
+{
+  "user_id": integer | required,
+  "book_id": integer | required,
+}
+```
+
+- Example Body Request
+
+```json
+{
+  "user_id": 1,
+  "book_id": 47
+}
+```
+
+- Example Response
+
+```json
+{
+  "status": "success",
+  "message": "Log has been sent"
 }
 ```
