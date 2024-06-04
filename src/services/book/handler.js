@@ -7,6 +7,13 @@ const GetBook = async (request, h) => {
 
   const books = await Book.getBooks({ limit, page });
 
+  if (books.length == 0) {
+    return h.response({
+      status: "success",
+      data: books,
+    });
+  }
+
   //   relasikan books dengan rating berdasarkan title_book
 
   const rating = await Rating.getRating({
@@ -60,6 +67,13 @@ const BooksRecommendation = async (request, h) => {
     limit,
     page,
   });
+
+  if (books.length == 0) {
+    return h.response({
+      status: "success",
+      data: books,
+    });
+  }
 
   const rating = await Rating.getRating({
     title_book: books.map((book) => `"${book.title}"`),
