@@ -1,5 +1,6 @@
 import { CheckUser, RegisterUser } from "../services/auth/handler";
 import { GetBook } from "../services/book/handler";
+import { SendLog } from "../services/log/handler";
 
 const route = [
   {
@@ -32,6 +33,11 @@ const route = [
     path: "/book",
     handler: GetBook,
   },
+  {
+    method: "POST",
+    path: "/log",
+    handler: SendLog,
+  }
 ];
 
 export default route;
