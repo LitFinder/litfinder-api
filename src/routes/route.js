@@ -1,5 +1,5 @@
 import { CheckUser, RegisterUser } from "../services/auth/handler";
-import { GetBook } from "../services/book/handler";
+import { BooksRecommendation, GetBook } from "../services/book/handler";
 import { SendLog } from "../services/log/handler";
 
 const route = [
@@ -37,6 +37,11 @@ const route = [
     method: "POST",
     path: "/log",
     handler: SendLog,
+  },
+  {
+    method: "POST",
+    path: "/recommendation",
+    handler: BooksRecommendation,
   }
 ];
 
