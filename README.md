@@ -12,6 +12,11 @@
   - [Get Recommendation Book](#get-recommendation-book)
 - [Logging](#logging)
   - [Insert Log User](#insert-log-user)
+- [Bookself](#bookself)
+  - [Get Bookself User](#get-bookself-user)
+  - [Insert Bookself](#insert-bookself)
+  - [Update Bookself to Read](#update-book-to-read)
+  - [Update Bookself to Finish](#update-book-to-finish)
 
 ## Start Project
 
@@ -363,5 +368,228 @@ POST /log
 {
   "status": "success",
   "message": "Log has been sent"
+}
+```
+
+## bookself
+
+> Need `token` to access API
+
+### Get Bookself User
+
+- Headers
+
+```http
+Authorization: <Token>
+Content-Type: application/json
+```
+
+- Path
+
+```http
+POST /bookself
+```
+
+- Body Request
+
+```javascript
+{
+  "user_id": integer | required,
+  "filter": integer | optional | ["want", "read", "finish"] | (default: "all"),
+}
+```
+
+- Example Body Request
+
+```json
+{
+  "user_id": 1,
+  "filter": "finish"
+}
+```
+
+- Example Response
+
+```json
+{
+  "status": "success",
+  "data": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "book_id": 5,
+      "status": "finish",
+      "rating_id": 2999991,
+      "createdAt": "2024-06-04T20:45:34.000Z",
+      "book": [
+        {
+          "id": 5,
+          "title": "The Church of Christ: A Biblical Ecclesiology for Today",
+          "description": "In The Church of Christ: A Biblical Ecclesiology for To...",
+          "authors": "['Everett Ferguson']",
+          "image": "http://books.google.com/books...",
+          "previewLink": "http://books.google.nl/book...",
+          "publisher": "Wm. B. Eerdmans Publishing",
+          "publishedDate": "1996",
+          "infoLink": "http://books.google.n...",
+          "categories": "['Religion']",
+          "ratingsCount": 5
+        }
+      ],
+      "rating": {
+        "id": 2999991,
+        "book_id": null,
+        "title": "The Church of Christ: A Bibl...",
+        "price": null,
+        "user_id": "1",
+        "profileName": "Bintang",
+        "reviewHelpfulness": "8/10",
+        "reviewScore": 4,
+        "reviewTime": null,
+        "reviewSummary": "Good Book",
+        "reviewText": "Absolutely this amazing book"
+      }
+    }
+  ]
+}
+```
+
+### Insert Bookself
+
+- Headers
+
+```http
+Authorization: <Token>
+Content-Type: application/json
+```
+
+- Path
+
+```http
+POST /bookself/add
+```
+
+- Body Request
+
+```javascript
+{
+  "user_id": integer | required,
+  "book_id": integer | required,
+}
+```
+
+- Example Body Request
+
+```json
+{
+  "user_id": 1,
+  "book_id": 31
+}
+```
+
+- Example Response
+
+```json
+{
+  "status": "success",
+  "message": "Book has been added to bookself"
+}
+```
+
+### Update Book to Read
+
+- Headers
+
+```http
+Authorization: <Token>
+Content-Type: application/json
+```
+
+- Path
+
+```http
+POST /bookself/update
+```
+
+- Body Request
+
+```javascript
+{
+  "bookself_id": integer | required,
+  "status": string | required | "read",
+}
+```
+
+- Example Body Request
+
+```json
+{
+  "bookself_id": 1,
+  "status": "read"
+}
+```
+
+- Example Response
+
+```json
+{
+  "status": "success",
+  "message": "Bookself has been updated"
+}
+```
+
+### Update Book to Finish
+
+- Headers
+
+```http
+Authorization: <Token>
+Content-Type: application/json
+```
+
+- Path
+
+```http
+POST /bookself/update
+```
+
+- Body Request
+
+```javascript
+{
+  "bookself_id": integer | required,
+  "status": string | required | "finish",
+  "title": string | required,
+  "user_id": int | required,
+  "profileName": string | required,
+  "reviewHelpfulness": string | required,
+  "reviewScore": int | required,
+  "reviewSummary": string | required,
+  "reviewText": string | required,
+}
+```
+
+- Example Body Request
+
+```json
+{
+  "bookself_id": 1,
+  "status": "finish",
+  "title": "The Church of Christ: A Biblical Ecclesiology for Today",
+  "user_id": 1,
+  "profileName": "Bintang",
+  "reviewHelpfulness": "8/10",
+  "reviewScore": 4,
+  "reviewSummary": "Good Book",
+  "reviewText": "Absolutely this amazing book"
+}
+```
+
+- Example Response
+
+```json
+{
+  "status": "success",
+  "message": "Bookself has been updated"
 }
 ```
