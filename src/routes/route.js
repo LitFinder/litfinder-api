@@ -1,6 +1,11 @@
 import { CheckUser, RegisterUser } from "../services/auth/handler";
 import { BooksRecommendation, GetBook } from "../services/book/handler";
-import { GetMyBookself, InsertBookself, UpdateBook } from "../services/bookself/handler";
+import {
+  GetMyBookself,
+  InsertBookself,
+  UpdateBook,
+} from "../services/bookself/handler";
+import { GetGenre } from "../services/genre/handler";
 import { SendLog } from "../services/log/handler";
 
 const route = [
@@ -49,6 +54,12 @@ const route = [
     method: "POST",
     path: "/bookself/add",
     handler: InsertBookself,
+  },
+  {
+    method: "GET",
+    path: "/genre",
+    handler: GetGenre
+    ,
   },
 ];
 

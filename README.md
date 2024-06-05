@@ -594,3 +594,56 @@ POST /bookself/update
   "message": "Bookself has been updated"
 }
 ```
+
+## Genre
+
+> Need `token` to access API
+
+### Get All Genre
+
+- Headers
+
+```http
+Authorization: <Token>
+Content-Type: application/json
+```
+
+- Path
+
+```http
+GET /genre
+```
+
+- Example Response
+
+```json
+{
+  "status": "success",
+  "data": [
+    {
+      "id": 1,
+      "name": "Romantis",
+      "createdAt": "2024-06-05T06:31:06.000Z",
+      "updatedAt": "2024-06-05T06:31:06.000Z"
+    },
+    {
+      "id": 2,
+      "name": "Humor",
+      "createdAt": "2024-06-05T06:32:10.000Z",
+      "updatedAt": "2024-06-05T06:32:10.000Z"
+    },
+    {
+      "id": 3,
+      "name": "Horror",
+      "createdAt": "2024-06-05T06:32:18.000Z",
+      "updatedAt": "2024-06-05T06:32:18.000Z"
+    },
+    {
+      "id": 4,
+      "name": "Comedy",
+      "createdAt": "2024-06-05T06:32:25.000Z",
+      "updatedAt": "2024-06-05T06:32:25.000Z"
+    }
+  ]
+}
+```
