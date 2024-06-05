@@ -188,6 +188,7 @@ GET /book
 {
   "limit": integer | optional (default: 10),
   "page": integer | optional (default: 1),
+  "search": string | optional
 }
 ```
 
