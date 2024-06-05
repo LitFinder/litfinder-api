@@ -21,7 +21,7 @@ const InsertGenrePreference = async (req, res) => {
         status: "success",
         data: "Preference has been inserted",
       })
-      .code(200);
+      .code(201);
   }
 
   return res
@@ -32,4 +32,36 @@ const InsertGenrePreference = async (req, res) => {
     .code(500);
 };
 
-export { InsertGenrePreference };
+const InsertBookPreference = async (req, res) => {
+  const { user_id, books = [] } = req.payload ?? {
+    user_id: null,
+    books: [],
+  };
+
+  if (!user_id || books.length === 0) {
+    throw new InputError();
+  }
+
+  const preference = await Preference.insertBookPreference({
+    user_id,
+    books,
+  });
+
+  if (preference) {
+    return res
+      .response({
+        status: "success",
+        data: "Preference has been inserted",
+      })
+      .code(201);
+  }
+
+  return res
+    .response({
+      status: "error",
+      message: "Failed to insert preference",
+    })
+    .code(500);
+};
+
+export { InsertGenrePreference, InsertBookPreference };

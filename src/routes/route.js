@@ -7,7 +7,7 @@ import {
 } from "../services/bookself/handler";
 import { GetGenre } from "../services/genre/handler";
 import { SendLog } from "../services/log/handler";
-import { InsertGenrePreference } from "../services/preference/handler";
+import { InsertBookPreference, InsertGenrePreference } from "../services/preference/handler";
 
 const route = [
   {
@@ -65,6 +65,11 @@ const route = [
     method: "POST",
     path: "/preference/genre/add",
     handler: InsertGenrePreference,
+  },
+  {
+    method: "POST",
+    path: "/preference/book/add",
+    handler: InsertBookPreference,
   },
 ];
 

@@ -15,6 +15,20 @@ const Preference = {
 
     return true;
   },
+  insertBookPreference: async ({ user_id, books = [] }) => {
+    const db = await getConnection();
+
+    // delete berdasarkan user
+    const queryDelete = `DELETE FROM preference_book WHERE user_id = ${user_id}`;
+    await db.execute(queryDelete);
+
+    books.forEach(async (book) => {
+      const sql = `INSERT INTO preference_book (user_id, book_id) VALUES ('${user_id}', '${book}')`;
+      await db.execute(sql);
+    });
+
+    return true;
+  },
 };
 
 export { Preference };
