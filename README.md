@@ -17,6 +17,11 @@
   - [Insert Bookself](#insert-bookself)
   - [Update Bookself to Read](#update-book-to-read)
   - [Update Bookself to Finish](#update-book-to-finish)
+- [Genre](#genre)
+  - [Get All Genre](#get-all-genre)
+- [Preference](#preference)
+  - [Insert Genre Preference](#insert-genre-preference)
+  - [Insert Book Preference](#insert-book-preference)
 
 ## Start Project
 
@@ -188,6 +193,7 @@ GET /book
 {
   "limit": integer | optional (default: 10),
   "page": integer | optional (default: 1),
+  "search": string | optional
 }
 ```
 
@@ -591,5 +597,146 @@ POST /bookself/update
 {
   "status": "success",
   "message": "Bookself has been updated"
+}
+```
+
+## Genre
+
+> Need `token` to access API
+
+### Get All Genre
+
+- Headers
+
+```http
+Authorization: <Token>
+Content-Type: application/json
+```
+
+- Path
+
+```http
+GET /genre
+```
+
+- Example Response
+
+```json
+{
+  "status": "success",
+  "data": [
+    {
+      "id": 1,
+      "name": "Romantis",
+      "createdAt": "2024-06-05T06:31:06.000Z",
+      "updatedAt": "2024-06-05T06:31:06.000Z"
+    },
+    {
+      "id": 2,
+      "name": "Humor",
+      "createdAt": "2024-06-05T06:32:10.000Z",
+      "updatedAt": "2024-06-05T06:32:10.000Z"
+    },
+    {
+      "id": 3,
+      "name": "Horror",
+      "createdAt": "2024-06-05T06:32:18.000Z",
+      "updatedAt": "2024-06-05T06:32:18.000Z"
+    },
+    {
+      "id": 4,
+      "name": "Comedy",
+      "createdAt": "2024-06-05T06:32:25.000Z",
+      "updatedAt": "2024-06-05T06:32:25.000Z"
+    }
+  ]
+}
+```
+
+## Preference
+
+> Need `token` to access API
+
+### Insert Genre Preference
+
+- Headers
+
+```http
+Authorization: <Token>
+Content-Type: application/json
+```
+
+- Path
+
+```http
+POST /preference/genre/add
+```
+
+- Body Request
+
+```javascript
+{
+  "user_id": integer | required,
+  "genres": array | required,
+}
+```
+
+- Example Body Request
+
+```json
+{
+  "user_id": 1,
+  "genres": [1, 2, 4]
+}
+```
+
+- Example Response
+
+```json
+{
+  "status": "success",
+  "data": "Preference has been inserted"
+}
+```
+
+### Insert Book Preference
+
+- Headers
+
+```http
+Authorization: <Token>
+Content-Type: application/json
+```
+
+- Path
+
+```http
+POST /preference/book/add
+```
+
+- Body Request
+
+```javascript
+{
+  "user_id": integer | required,
+  "books": array | required,
+}
+```
+
+- Example Body Request
+
+```json
+{
+  "user_id": 1,
+  "books": [5, 33]
+}
+```
+
+- Example Response
+
+```json
+{
+  "status": "success",
+  "data": "Preference has been inserted"
 }
 ```

@@ -3,9 +3,10 @@ import Rating from "../rating/controller";
 import Book from "./controller";
 
 const GetBook = async (request, h) => {
-  const { limit, page } = request.query;
+  const { limit, page, search } = request.query;
 
-  const books = await Book.getBooks({ limit, page });
+
+  const books = await Book.getBooks({ limit, page, search });
 
   if (books.length == 0) {
     return h.response({
