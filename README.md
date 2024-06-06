@@ -17,6 +17,11 @@
   - [Insert Bookself](#insert-bookself)
   - [Update Bookself to Read](#update-book-to-read)
   - [Update Bookself to Finish](#update-book-to-finish)
+- [Genre](#genre)
+  - [Get All Genre](#get-all-genre)
+- [Preference](#preference)
+  - [Insert Genre Preference](#insert-genre-preference)
+  - [Insert Book Preference](#insert-book-preference)
 
 ## Start Project
 
@@ -645,5 +650,93 @@ GET /genre
       "updatedAt": "2024-06-05T06:32:25.000Z"
     }
   ]
+}
+```
+
+## Preference
+
+> Need `token` to access API
+
+### Insert Genre Preference
+
+- Headers
+
+```http
+Authorization: <Token>
+Content-Type: application/json
+```
+
+- Path
+
+```http
+POST /preference/genre/add
+```
+
+- Body Request
+
+```javascript
+{
+  "user_id": integer | required,
+  "genres": array | required,
+}
+```
+
+- Example Body Request
+
+```json
+{
+  "user_id": 1,
+  "genres": [1, 2, 4]
+}
+```
+
+- Example Response
+
+```json
+{
+  "status": "success",
+  "data": "Preference has been inserted"
+}
+```
+
+### Insert Book Preference
+
+- Headers
+
+```http
+Authorization: <Token>
+Content-Type: application/json
+```
+
+- Path
+
+```http
+POST /preference/book/add
+```
+
+- Body Request
+
+```javascript
+{
+  "user_id": integer | required,
+  "books": array | required,
+}
+```
+
+- Example Body Request
+
+```json
+{
+  "user_id": 1,
+  "books": [5, 33]
+}
+```
+
+- Example Response
+
+```json
+{
+  "status": "success",
+  "data": "Preference has been inserted"
 }
 ```
