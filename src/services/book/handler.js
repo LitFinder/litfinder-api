@@ -2,9 +2,24 @@ import Log from "../log/controller";
 import Rating from "../rating/controller";
 import Book from "./controller";
 
+const GetAllBook = async (request, h) => {
+  const books = await Book.getAllBooks();
+
+  if (books.length == 0) {
+    return h.response({
+      status: "success",
+      data: books,
+    });
+  }
+
+  return h.response({
+    status: "success",
+    data: books,
+  });
+};
+
 const GetBook = async (request, h) => {
   const { limit, page, search } = request.query;
-
 
   const books = await Book.getBooks({ limit, page, search });
 
@@ -95,4 +110,4 @@ const BooksRecommendation = async (request, h) => {
   });
 };
 
-export { GetBook, BooksRecommendation };
+export { GetBook, BooksRecommendation, GetAllBook };

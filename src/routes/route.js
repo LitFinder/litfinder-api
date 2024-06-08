@@ -1,5 +1,9 @@
 import { CheckUser, RegisterUser } from "../services/auth/handler";
-import { BooksRecommendation, GetBook } from "../services/book/handler";
+import {
+  BooksRecommendation,
+  GetAllBook,
+  GetBook,
+} from "../services/book/handler";
 import {
   GetMyBookself,
   InsertBookself,
@@ -7,7 +11,11 @@ import {
 } from "../services/bookself/handler";
 import { GetGenre } from "../services/genre/handler";
 import { SendLog } from "../services/log/handler";
-import { InsertBookPreference, InsertGenrePreference } from "../services/preference/handler";
+import {
+  InsertBookPreference,
+  InsertGenrePreference,
+} from "../services/preference/handler";
+import { GetAllRating } from "../services/rating/handler";
 
 const route = [
   {
@@ -28,8 +36,24 @@ const route = [
   },
   {
     method: "GET",
+    path: "/rating",
+    handler: GetAllRating,
+    options: {
+      auth: false,
+    },
+  },
+  {
+    method: "GET",
     path: "/book",
     handler: GetBook,
+  },
+  {
+    method: "GET",
+    path: "/book/all",
+    handler: GetAllBook,
+    options: {
+      auth: false,
+    },
   },
   {
     method: "POST",

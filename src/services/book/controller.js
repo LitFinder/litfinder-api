@@ -1,6 +1,13 @@
 import getConnection from "../../connection/database";
 
 const Book = {
+  getAllBooks: async () => {
+    const db = await getConnection();
+    const sql = `SELECT * FROM book`;
+    const [results] = await db.execute(sql);
+
+    return results;
+  },
   getBooks: async ({ limit = 10, page = 1, search = "" }) => {
     const offset = (page - 1) * limit;
 
