@@ -13,6 +13,8 @@ const Preference = {
       await db.execute(sql);
     });
 
+    db.end();
+
     return true;
   },
   insertBookPreference: async ({ user_id, books = [] }) => {
@@ -26,6 +28,8 @@ const Preference = {
       const sql = `INSERT INTO preference_book (user_id, book_id) VALUES ('${user_id}', '${book}')`;
       await db.execute(sql);
     });
+
+    db.end();
 
     return true;
   },

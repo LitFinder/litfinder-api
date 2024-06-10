@@ -9,6 +9,8 @@ const Auth = {
       email,
       await hashPassword(password),
     ]);
+
+    db.end();
     return results[0];
   },
 
@@ -22,6 +24,8 @@ const Auth = {
       name,
       username,
     ]);
+
+    db.end();
     return results;
   },
 
@@ -29,6 +33,8 @@ const Auth = {
     const db = await getConnection();
     const sql = "SELECT * FROM user WHERE id = ?";
     const [results] = await db.execute(sql, [id]);
+
+    db.end();
     return results[0];
   },
 };

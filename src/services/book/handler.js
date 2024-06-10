@@ -72,11 +72,33 @@ const BooksRecommendation = async (request, h) => {
     data: bookUser,
   };
 
-  console.log(logUser);
 
   // from ml
   const resultRecomendation = [5, 31, 33, 42, 45, 47, 120, 125, 128];
   // end from ml
+
+  // comment connect to ml
+  // const dataId = logUser.data.map((data) => data.id);
+
+  // const recommendation = await fetch(
+  //   "https://8e01-103-168-190-2.ngrok-free.app/recommendation",
+  //   {
+  //     method: "POST",
+  //     body: JSON.stringify({
+  //       id_book: dataId,
+  //     }),
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   }
+  // );
+
+  // const ress = await recommendation.json();
+  // // from ml
+  // const resultRecomendation = ress.recommendations;
+
+  // console.log(resultRecomendation);
+  // // end from ml
 
   const books = await Book.getBookByIds({
     ids: resultRecomendation.map((id) => id),
