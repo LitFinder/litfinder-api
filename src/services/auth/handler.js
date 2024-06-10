@@ -8,6 +8,7 @@ const CheckUser = async (request, h) => {
     const { email, password } = request.payload;
     payload = { email, password };
   } catch (error) {
+    1;
     throw new Inputrror();
   }
 
@@ -48,6 +49,7 @@ const RegisterUser = async (request, h) => {
 
     return h.response({
       status: "success",
+      token: createToken(newUser),
       message: "Register berhasil",
       data: newUser,
     });

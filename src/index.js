@@ -10,8 +10,15 @@ import Inputrror from "./error/InputError";
 const init = async () => {
   const server = Hapi.server({
     port: 1234,
-    host: "127.0.0.1",
+    host: process.env.MODE == "PRODUCTION" ? "0.0.0.0" : "127.0.0.1",
+    routes: {
+      cors: {
+        origin: ["*"],
+      },
+    },
   });
+
+  // allow * origin
 
   await server.register(Jwt);
   server.auth.strategy("jwt", "jwt", {
@@ -32,7 +39,7 @@ const init = async () => {
         message: "Invalid request payload input",
       });
       newResponse.code(413);
-      
+
       return newResponse;
     }
 
