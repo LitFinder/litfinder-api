@@ -110,6 +110,7 @@ POST /register
 ```json
 {
   "message": "Register success",
+  "token": "...EnG_V_E-d1U3lMCQ7r7ik",
   "data": {
     "id": "clwrodnj40001ybe4t3vh6766",
     "email": "mphstar@gmail.com",
