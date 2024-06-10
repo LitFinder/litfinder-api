@@ -1,8 +1,8 @@
 const database = {
-  host: process.env.HOST,
-  user: process.env.USER,
-  password: process.env.PASSWORD,
-  database: process.env.DATABASE,
+  host: process.env.SQLHOST,
+  user: process.env.SQLUSER,
+  password: process.env.SQLPASSWORD,
+  database: process.env.SQLDATABASE,
   port: process.env.PORT,
 };
 

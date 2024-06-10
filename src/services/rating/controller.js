@@ -6,12 +6,17 @@ const Rating = {
     const sql = `SELECT * FROM rating`;
     const [results] = await db.execute(sql);
 
+    db.end();
+
     return results;
   },
   getRating: async ({ title_book }) => {
     const db = await getConnection();
     const sql = `SELECT * FROM rating WHERE title IN (${title_book})`;
     const [results] = await db.execute(sql);
+
+    db.end();
+
     return results;
   },
   getRatingsById: async ({ id }) => {
@@ -19,6 +24,9 @@ const Rating = {
     const sql = `SELECT * FROM rating WHERE id IN (${id})`;
 
     const [results] = await db.execute(sql);
+
+    db.end();
+
     return results;
   },
   insertRating: async ({
@@ -33,6 +41,8 @@ const Rating = {
     const db = await getConnection();
     const sql = `INSERT INTO rating (title, user_id, profileName, reviewHelpfulness, reviewScore, reviewSummary, reviewText) VALUES ('${title}', '${user_id}', '${profileName}', '${reviewHelpfulness}', '${reviewScore}', '${reviewSummary}', '${reviewText}')`;
     const [results] = await db.execute(sql);
+
+    db.end();
 
     return results;
   },

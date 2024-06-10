@@ -6,6 +6,8 @@ const Book = {
     const sql = `SELECT * FROM book`;
     const [results] = await db.execute(sql);
 
+    db.end();
+
     return results;
   },
   getBooks: async ({ limit = 10, page = 1, search = "" }) => {
@@ -14,6 +16,8 @@ const Book = {
     const db = await getConnection();
     const sql = `SELECT * FROM book WHERE title LIKE '%${search}%' LIMIT ${limit} OFFSET ${offset}`;
     const [results] = await db.execute(sql);
+
+    db.end();
 
     return results;
   },
@@ -25,10 +29,14 @@ const Book = {
       const sql = `SELECT * FROM book WHERE id IN (${ids}) LIMIT ${limit} OFFSET ${offset}`;
       const [results] = await db.execute(sql);
 
+      db.end();
+
       return results;
     } else {
       const sql = `SELECT * FROM book WHERE id IN (${ids})`;
       const [results] = await db.execute(sql);
+
+      db.end();
 
       return results;
     }
@@ -38,6 +46,8 @@ const Book = {
     const db = await getConnection();
     const sql = `SELECT * FROM book WHERE id = "${id}"`;
     const [results] = await db.execute(sql);
+
+    db.end();
 
     return results;
   },

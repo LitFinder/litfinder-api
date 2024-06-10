@@ -13,6 +13,8 @@ const Bookself = {
 
     const [results] = await db.execute(sql);
 
+    db.end();
+
     return results;
   },
   updateBookself: async ({ id, status, rating_id }) => {
@@ -20,11 +22,16 @@ const Bookself = {
     if (rating_id) {
       const sql = `UPDATE bookself SET status = '${status}', rating_id = ${rating_id} WHERE id = ${id}`;
       const [results] = await db.execute(sql);
+
+      db.end();
+
       return results;
     }
 
     const sql = `UPDATE bookself SET status = '${status}' WHERE id = ${id}`;
     const [results] = await db.execute(sql);
+
+    db.end();
 
     return results;
   },
@@ -33,12 +40,16 @@ const Bookself = {
     const sql = `INSERT INTO bookself (user_id, book_id) VALUES (${user_id}, ${book_id})`;
     const [results] = await db.execute(sql);
 
+    db.end();
+
     return results;
   },
   findBookself: async ({ user_id, book_id }) => {
     const db = await getConnection();
     const sql = `SELECT * FROM bookself WHERE user_id = ${user_id} AND book_id = ${book_id}`;
     const [results] = await db.execute(sql);
+
+    db.end();
 
     return results;
   },

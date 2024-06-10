@@ -5,6 +5,9 @@ const Genre = {
     const db = await getConnection();
     const sql = `SELECT * FROM genre`;
     const [results] = await db.execute(sql);
+
+    db.end();
+    
     return results;
   },
 };
