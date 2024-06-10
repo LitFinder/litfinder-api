@@ -1,4 +1,5 @@
 import { CheckUser, RegisterUser } from "../services/auth/handler";
+import { UpdateProfile, getProfile } from "../services/profile/handler";
 
 const route = [
   {
@@ -22,6 +23,15 @@ const route = [
     method: "POST",
     path: "/register",
     handler: RegisterUser,
+    options: {
+      auth: false,
+    },
+  },
+
+  {
+    method: "POST",
+    path: "/profile/update",
+    handler: UpdateProfile,
     options: {
       auth: false,
     },
