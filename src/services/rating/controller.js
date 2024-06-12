@@ -19,6 +19,15 @@ const Rating = {
 
     return results;
   },
+  getRatingByTitle: async ({ title }) => {
+    const db = await getConnection();
+    const sql = `SELECT * FROM rating WHERE title = '${title}'`;
+    const [results] = await db.execute(sql);
+
+    db.end();
+
+    return results;
+  },
   getRatingsById: async ({ id }) => {
     const db = await getConnection();
     const sql = `SELECT * FROM rating WHERE id IN (${id})`;

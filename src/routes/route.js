@@ -16,7 +16,7 @@ import {
   InsertBookPreference,
   InsertGenrePreference,
 } from "../services/preference/handler";
-import { GetAllRating } from "../services/rating/handler";
+import { GetAllRating, GetRating } from "../services/rating/handler";
 
 const route = [
   {
@@ -101,6 +101,11 @@ const route = [
     method: "POST",
     path: "/preference/book/add",
     handler: InsertBookPreference,
+  },
+  {
+    method: "POST",
+    path: "/book/rating",
+    handler: GetRating,
   },
 ];
 
