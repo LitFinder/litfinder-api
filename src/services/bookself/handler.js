@@ -65,25 +65,25 @@ const GetMyBookself = async (req, res) => {
 
 const addRating = async (req, res) => {
   const {
-    title,
     user_id,
     profileName,
     reviewHelpfulness,
     reviewScore,
     reviewSummary,
     reviewText,
+    book_id
   } = req.payload ?? {
-    title: null,
     user_id: null,
     profileName: null,
     reviewHelpfulness: null,
     reviewScore: null,
     reviewSummary: null,
     reviewText: null,
+    book_id: null
   };
 
   if (
-    !title ||
+    !book_id ||
     !user_id ||
     !profileName ||
     !reviewHelpfulness ||
@@ -95,7 +95,7 @@ const addRating = async (req, res) => {
   }
 
   const rating = await Rating.insertRating({
-    title,
+    book_id,
     user_id,
     profileName,
     reviewHelpfulness,

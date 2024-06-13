@@ -1,4 +1,9 @@
-import { CheckUser, RegisterUser } from "../services/auth/handler";
+import {
+  ChangePassword,
+  CheckUser,
+  ForgetPassword,
+  RegisterUser,
+} from "../services/auth/handler";
 import { UpdateProfile, getProfile } from "../services/profile/handler";
 import {
   BooksRecommendation,
@@ -16,13 +21,29 @@ import {
   InsertBookPreference,
   InsertGenrePreference,
 } from "../services/preference/handler";
-import { GetAllRating } from "../services/rating/handler";
+import { GetAllRating, GetRatingFromId } from "../services/rating/handler";
 
 const route = [
   {
     method: "POST",
     path: "/login",
     handler: CheckUser,
+    options: {
+      auth: false,
+    },
+  },
+  {
+    method: "POST",
+    path: "/send-kode",
+    handler: ForgetPassword,
+    options: {
+      auth: false,
+    },
+  },
+  {
+    method: "POST",
+    path: "/change-password",
+    handler: ChangePassword,
     options: {
       auth: false,
     },
@@ -41,26 +62,31 @@ const route = [
     path: "/profile/update",
     handler: UpdateProfile,
   },
-  {
-    method: "GET",
-    path: "/rating",
-    handler: GetAllRating,
-    options: {
-      auth: false,
-    },
-  },
+  // {
+  //   method: "GET",
+  //   path: "/rating",
+  //   handler: GetAllRating,
+  //   options: {
+  //     auth: false,
+  //   },
+  // },
   {
     method: "GET",
     path: "/book",
     handler: GetBook,
   },
+  // {
+  //   method: "GET",
+  //   path: "/book/all",
+  //   handler: GetAllBook,
+  //   options: {
+  //     auth: false,
+  //   },
+  // },
   {
-    method: "GET",
-    path: "/book/all",
-    handler: GetAllBook,
-    options: {
-      auth: false,
-    },
+    method: "POST",
+    path: "/rating",
+    handler: GetRatingFromId,
   },
   {
     method: "POST",

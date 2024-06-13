@@ -10,6 +10,8 @@
 - [Book](#book)
   - [Get All Book](#get-all-book)
   - [Get Recommendation Book](#get-recommendation-book)
+- [Rating](#rating)
+  - [Get Rating from Book ID](#get-rating-from-book-id)
 - [Logging](#logging)
   - [Insert Log User](#insert-log-user)
 - [Bookself](#bookself)
@@ -22,6 +24,10 @@
 - [Preference](#preference)
   - [Insert Genre Preference](#insert-genre-preference)
   - [Insert Book Preference](#insert-book-preference)
+- [Forget Password](#forget-password)
+  - [Send Kode Verif](#send-kode-verif)
+    [Change Password](#change-password)
+
 
 ## Start Project
 
@@ -64,7 +70,7 @@ npm run start:dev
 - Production
 
 ```
-https://litfinder-appspot.com/
+http://34.27.235.243:1234
 ```
 
 - Development
@@ -109,16 +115,16 @@ POST /register
 
 ```json
 {
-  "message": "Register success",
-  "token": "...EnG_V_E-d1U3lMCQ7r7ik",
+  "status": "success",
+  "token": "...0IjoxNzE4MjczODQxf",
+  "message": "Register berhasil",
   "data": {
-    "id": "clwrodnj40001ybe4t3vh6766",
+    "id": 4,
     "email": "mphstar@gmail.com",
     "username": "mphstar",
-    "name": "Bintang",
-    "password": ".....202cb962ac",
-    "createdAt": "2024-05-29T10:20:15.327Z",
-    "updatedAt": "2024-05-29T10:20:15.327Z"
+    "name": "Mphstar",
+    "bio": null,
+    "imageProfile": null
   }
 }
 ```
@@ -156,15 +162,14 @@ POST /login
 ```json
 {
   "message": "Login success",
-  "token": "...EnG_V_E-d1U3lMCQ7r7ik",
+  "token": "...eyJhbGciOiJIUzI1NiIsInR5",
   "data": {
-    "id": "clwrodnj40001ybe4t3vh6766",
-    "email": "mphstar@gmail.com",
-    "username": "mphstar",
+    "id": 1,
+    "email": "bintang@gmail.com",
+    "username": "bintang",
     "name": "Bintang",
-    "password": "...4b07152d234b70",
-    "createdAt": "2024-05-29T10:20:15.327Z",
-    "updatedAt": "2024-05-29T10:20:15.327Z"
+    "bio": null,
+    "imageProfile": null
   }
 }
 ```
@@ -195,49 +200,75 @@ GET /book
   "limit": integer | optional (default: 10),
   "page": integer | optional (default: 1),
   "search": string | optional
+  "rating": "true" | optional
 }
 ```
 
 - Example Params Request
 
-```json
-{
-  "limit": 15,
-  "page": 1
-}
+```text
+/book?limit=10&page=1
 ```
 
-- Example Response
+- Example Params Request with Rating
+
+```text
+/book?limit=10&page=1&rating=true
+```
+
+> If you put `rating` in params, rating will appear together with the book data
+
+- Example Response Without Rating
 
 ```json
 {
   "status": "success",
   "data": [
     {
-      "id": 5,
-      "title": "The Church of Chris...",
-      "description": "In The Church of ...",
+      "title": "The Church of Chris..",
+      "description": "In The Church of C..",
       "authors": "['Everett Ferguson']",
-      "image": "http://books.googl...",
-      "previewLink": "http://books.google...",
-      "publisher": "Wm. B. Eerdmans Publishing",
+      "image": "http://books.google...i",
+      "previewLink": "http://books.goog..",
+      "publisher": "Wm. B. Eerdmans..",
       "publishedDate": "1996",
-      "infoLink": "http://books.googl...",
+      "infoLink": "http://books.google.n..",
       "categories": "['Religion']",
       "ratingsCount": 5,
+      "id": 1
+    }
+  ]
+}
+```
+
+- Example Response With Rating
+
+```json
+{
+  "status": "success",
+  "data": [
+    {
+      "title": "The Church of Chris..",
+      "description": "In The Church of C..",
+      "authors": "['Everett Ferguson']",
+      "image": "http://books.google...i",
+      "previewLink": "http://books.goog..",
+      "publisher": "Wm. B. Eerdmans..",
+      "publishedDate": "1996",
+      "infoLink": "http://books.google.n..",
+      "categories": "['Religion']",
+      "ratingsCount": 5,
+      "id": 1,
       "rating": [
         {
-          "id": 47,
-          "book_id": "0802841899",
-          "title": "The Church of ...",
-          "price": 25.97,
-          "user_id": "ARI272XF8TOL4",
-          "profileName": "Christopher J. Bray",
-          "reviewHelpfulness": "74/81",
-          "reviewScore": 5,
-          "reviewTime": 955411200,
-          "reviewSummary": "Ecclesiological Milestone",
-          "reviewText": "With the publication of Everett..."
+          "id": 53,
+          "user_id": "A2H2LORTA5EZY2",
+          "book_id": 1,
+          "profileName": "Edward E. Howe",
+          "reviewHelpfulness": "3/5",
+          "reviewScore": 4,
+          "reviewSummary": "Christ is Lord",
+          "reviewText": "This is a very use..."
         }
       ]
     }
@@ -266,17 +297,23 @@ POST /recommendation
 {
   "limit": integer | optional (default: 10),
   "page": integer | optional (default: 1),
+  "rating": "true" | optional
 }
 ```
 
 - Example Params Request
 
-```json
-{
-  "limit": 15,
-  "page": 1
-}
+```text
+/recommendation?limit=10&page=1
 ```
+
+- Example Params Request with Rating
+
+```text
+/recommendation?limit=10&page=1&rating=true
+```
+
+> If you put `rating` in params, rating will appear together with the book data
 
 - Body Request
 
@@ -294,6 +331,99 @@ POST /recommendation
 }
 ```
 
+- Example Response Without Rating
+
+```json
+{
+  "status": "success",
+  "data": [
+    {
+      "title": "The Church of Chris..",
+      "description": "In The Church of C..",
+      "authors": "['Everett Ferguson']",
+      "image": "http://books.google...i",
+      "previewLink": "http://books.goog..",
+      "publisher": "Wm. B. Eerdmans..",
+      "publishedDate": "1996",
+      "infoLink": "http://books.google.n..",
+      "categories": "['Religion']",
+      "ratingsCount": 5,
+      "id": 1
+    }
+  ]
+}
+```
+
+- Example Response With Rating
+
+```json
+{
+  "status": "success",
+  "data": [
+    {
+      "title": "The Church of Chris..",
+      "description": "In The Church of C..",
+      "authors": "['Everett Ferguson']",
+      "image": "http://books.google...i",
+      "previewLink": "http://books.goog..",
+      "publisher": "Wm. B. Eerdmans..",
+      "publishedDate": "1996",
+      "infoLink": "http://books.google.n..",
+      "categories": "['Religion']",
+      "ratingsCount": 5,
+      "id": 1,
+      "rating": [
+        {
+          "id": 53,
+          "user_id": "A2H2LORTA5EZY2",
+          "book_id": 1,
+          "profileName": "Edward E. Howe",
+          "reviewHelpfulness": "3/5",
+          "reviewScore": 4,
+          "reviewSummary": "Christ is Lord",
+          "reviewText": "This is a very use..."
+        }
+      ]
+    }
+  ]
+}
+```
+
+## Rating
+
+> Need `token` to access API
+
+### Get Rating from Book ID
+
+- Headers
+
+```http
+Authorization: <Token>
+Content-Type: application/json
+```
+
+- Path
+
+```http
+POST /rating
+```
+
+- Body Request
+
+```javascript
+{
+  "book_id": integer | required,
+}
+```
+
+- Example Body Request
+
+```json
+{
+  "book_id": 47
+}
+```
+
 - Example Response
 
 ```json
@@ -301,32 +431,14 @@ POST /recommendation
   "status": "success",
   "data": [
     {
-      "id": 5,
-      "title": "The Church of Chris...",
-      "description": "In The Church of ...",
-      "authors": "['Everett Ferguson']",
-      "image": "http://books.googl...",
-      "previewLink": "http://books.google...",
-      "publisher": "Wm. B. Eerdmans Publishing",
-      "publishedDate": "1996",
-      "infoLink": "http://books.googl...",
-      "categories": "['Religion']",
-      "ratingsCount": 5,
-      "rating": [
-        {
-          "id": 47,
-          "book_id": "0802841899",
-          "title": "The Church of ...",
-          "price": 25.97,
-          "user_id": "ARI272XF8TOL4",
-          "profileName": "Christopher J. Bray",
-          "reviewHelpfulness": "74/81",
-          "reviewScore": 5,
-          "reviewTime": 955411200,
-          "reviewSummary": "Ecclesiological Milestone",
-          "reviewText": "With the publication of Everett..."
-        }
-      ]
+      "id": 106,
+      "user_id": "A1F0EV2MBF208I",
+      "book_id": 5,
+      "profileName": "Olena Y. Rabino..",
+      "reviewHelpfulness": "14/14",
+      "reviewScore": 4,
+      "reviewSummary": "Very authentic",
+      "reviewText": "This is my firs.."
     }
   ]
 }
@@ -444,15 +556,12 @@ POST /bookself
         }
       ],
       "rating": {
-        "id": 2999991,
-        "book_id": null,
-        "title": "The Church of Christ: A Bibl...",
-        "price": null,
+        "id": 174296,
         "user_id": "1",
+        "book_id": 31,
         "profileName": "Bintang",
         "reviewHelpfulness": "8/10",
         "reviewScore": 4,
-        "reviewTime": null,
         "reviewSummary": "Good Book",
         "reviewText": "Absolutely this amazing book"
       }
@@ -566,7 +675,7 @@ POST /bookself/update
 {
   "bookself_id": integer | required,
   "status": string | required | "finish",
-  "title": string | required,
+  "book_id": int | required,
   "user_id": int | required,
   "profileName": string | required,
   "reviewHelpfulness": string | required,
@@ -582,7 +691,7 @@ POST /bookself/update
 {
   "bookself_id": 1,
   "status": "finish",
-  "title": "The Church of Christ: A Biblical Ecclesiology for Today",
+  "book_id": 31,
   "user_id": 1,
   "profileName": "Bintang",
   "reviewHelpfulness": "8/10",
@@ -739,5 +848,86 @@ POST /preference/book/add
 {
   "status": "success",
   "data": "Preference has been inserted"
+}
+```
+
+## Forget Password
+
+### Send Kode Verif
+
+- Headers
+
+```http
+Content-Type: application/json
+```
+
+- Path
+
+```http
+POST /send-kode
+```
+
+- Body Request
+
+```javascript
+{
+  "email": string | required,
+}
+```
+
+- Example Body Request
+
+```json
+{
+  "email": "naisyuu21@gmail.com"
+}
+```
+
+- Example Response
+
+```json
+{
+  "message": "Code has been sent to your email",
+  "kode": 968390
+}
+```
+
+### Change Password
+
+- Headers
+
+```http
+Content-Type: application/json
+```
+
+- Path
+
+```http
+POST /change-password
+```
+
+- Body Request
+
+```javascript
+{
+  "email": string | required,
+  "password": string | required,
+}
+```
+
+- Example Body Request
+
+```json
+{
+  "email": "naisyuu21@gmail.com",
+  "password": "123"
+}
+```
+
+- Example Response
+
+```json
+{
+  "message": "Password has been changed"
 }
 ```
