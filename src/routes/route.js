@@ -128,11 +128,6 @@ const route = [
     path: "/preference/book/add",
     handler: InsertBookPreference,
   },
-  {
-    method: "POST",
-    path: "/book/rating",
-    handler: GetRating,
-  },
 ];
 
 export default route;
