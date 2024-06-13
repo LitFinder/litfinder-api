@@ -1,4 +1,9 @@
-import { CheckUser, RegisterUser } from "../services/auth/handler";
+import {
+  ChangePassword,
+  CheckUser,
+  ForgetPassword,
+  RegisterUser,
+} from "../services/auth/handler";
 import { UpdateProfile, getProfile } from "../services/profile/handler";
 import {
   BooksRecommendation,
@@ -17,12 +22,29 @@ import {
   InsertGenrePreference,
 } from "../services/preference/handler";
 import { GetAllRating, GetRatingFromId } from "../services/rating/handler";
+import sendMail from "../mail";
 
 const route = [
   {
     method: "POST",
     path: "/login",
     handler: CheckUser,
+    options: {
+      auth: false,
+    },
+  },
+  {
+    method: "POST",
+    path: "/send-kode",
+    handler: ForgetPassword,
+    options: {
+      auth: false,
+    },
+  },
+  {
+    method: "POST",
+    path: "/change-password",
+    handler: ChangePassword,
     options: {
       auth: false,
     },

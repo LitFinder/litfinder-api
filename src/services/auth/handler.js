@@ -1,4 +1,5 @@
 import Inputrror from "../../error/InputError";
+import sendMail from "../../mail";
 import createToken from "../../utils/createToken";
 import Auth from "./controller";
 
@@ -54,11 +55,57 @@ const RegisterUser = async (request, h) => {
       data: newUser,
     });
   } catch (error) {
-    return h.response({
-      message: "Register failed",
-      error: "Email / Username already exists",
-    });
+    return h
+      .response({
+        message: "Register failed",
+        error: "Email / Username already exists",
+      })
+      .code(400);
   }
 };
 
-export { CheckUser, RegisterUser };
+const ForgetPassword = async (request, h) => {
+  const { email } = request.payload ?? {
+    email: null,
+  };
+
+  if (!email) {
+    return h
+      .response({
+        message: "Email is required",
+      })
+      .code(400);
+  }
+
+  const kode = Math.floor(100000 + Math.random() * 900000);
+
+  sendMail({ to: email, kode });
+
+  return h.response({
+    message: "Code has been sent to your email",
+    kode,
+  });
+};
+
+const ChangePassword = async (request, h) => {
+  const { email, password } = request.payload ?? {
+    email: null,
+    password: null,
+  };
+
+  if (!email || !password) {
+    return h
+      .response({
+        message: "Email and password is required",
+      })
+      .code(400);
+  }
+
+  const res = await Auth.changePassword({ email, password });
+
+  return h.response({
+    message: "Password has been changed",
+  });
+};
+
+export { CheckUser, RegisterUser, ForgetPassword, ChangePassword };

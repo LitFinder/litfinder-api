@@ -4,7 +4,8 @@ import hashPassword from "../../utils/hashPassword";
 const Auth = {
   check: async ({ email, password }) => {
     const db = await getConnection();
-    const sql = "SELECT * FROM user WHERE email = ? AND password = ?";
+    const sql =
+      "SELECT id, email, username, name, bio, imageProfile FROM user WHERE email = ? AND password = ?";
     const [results] = await db.execute(sql, [
       email,
       await hashPassword(password),
@@ -31,11 +32,24 @@ const Auth = {
 
   findUser: async (id) => {
     const db = await getConnection();
-    const sql = "SELECT * FROM user WHERE id = ?";
+    const sql =
+      "SELECT id, email, username, name, bio, imageProfile FROM user WHERE id = ?";
     const [results] = await db.execute(sql, [id]);
 
     db.end();
     return results[0];
+  },
+
+  changePassword: async ({ email, password }) => {
+    const db = await getConnection();
+
+    const pw = await hashPassword(password);
+
+    const sql = `UPDATE user SET password = '${pw}' WHERE email = '${email}'`;
+    const [results] = await db.execute(sql);
+
+    db.end();
+    return results;
   },
 };
 
