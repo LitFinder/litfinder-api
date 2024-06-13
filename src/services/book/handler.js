@@ -19,7 +19,7 @@ const GetAllBook = async (request, h) => {
 };
 
 const GetBook = async (request, h) => {
-  const { limit, page, search } = request.query;
+  const { limit, page, search, rating } = request.query;
 
   const books = await Book.getBooks({ limit, page, search });
 
@@ -30,28 +30,30 @@ const GetBook = async (request, h) => {
     });
   }
 
-  //   relasikan books dengan rating berdasarkan title_book
+  if (rating) {
+    const ratingBook = await Rating.getRating({
+      ids: books.map((book) => book.id),
+    });
 
-  const rating = await Rating.getRating({
-    title_book: books.map((book) => `"${book.title}"`),
-  });
+    books.forEach((book) => {
+      const rating = ratingBook.filter((rating) => rating.book_id === book.id);
+      book.rating = rating;
+    });
 
-  const newBook = books.map((book) => {
-    const bookRating = rating.filter((rate) => rate.title == book.title);
-    return {
-      ...book,
-      rating: bookRating ? bookRating : null,
-    };
-  });
+    return h.response({
+      status: "success123",
+      data: books,
+    });
+  }
 
   return h.response({
     status: "success",
-    data: newBook,
+    data: books,
   });
 };
 
 const BooksRecommendation = async (request, h) => {
-  const { limit, page } = request.query;
+  const { limit, page, rating } = request.query;
   const { user_id } = request.payload ?? {
     user_id: null,
   };
@@ -71,7 +73,6 @@ const BooksRecommendation = async (request, h) => {
     user_id,
     data: bookUser,
   };
-
 
   // from ml
   const resultRecomendation = [5, 31, 33, 42, 45, 47, 120, 125, 128];
@@ -113,22 +114,25 @@ const BooksRecommendation = async (request, h) => {
     });
   }
 
-  const rating = await Rating.getRating({
-    title_book: books.map((book) => `"${book.title}"`),
-  });
+  if (rating) {
+    const ratingBook = await Rating.getRating({
+      ids: books.map((book) => book.id),
+    });
 
-  const newBook = books.map((book) => {
-    const bookRating = rating.filter((rate) => rate.title == book.title);
-    return {
-      ...book,
-      rating: bookRating ? bookRating : null,
-    };
-  });
+    books.forEach((book) => {
+      const rating = ratingBook.filter((rating) => rating.book_id === book.id);
+      book.rating = rating;
+    });
+
+    return h.response({
+      status: "success123",
+      data: books,
+    });
+  }
 
   return h.response({
     status: "success",
-
-    data: newBook,
+    data: books,
   });
 };
 

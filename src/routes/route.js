@@ -16,7 +16,7 @@ import {
   InsertBookPreference,
   InsertGenrePreference,
 } from "../services/preference/handler";
-import { GetAllRating } from "../services/rating/handler";
+import { GetAllRating, GetRatingFromId } from "../services/rating/handler";
 
 const route = [
   {
@@ -41,26 +41,31 @@ const route = [
     path: "/profile/update",
     handler: UpdateProfile,
   },
-  {
-    method: "GET",
-    path: "/rating",
-    handler: GetAllRating,
-    options: {
-      auth: false,
-    },
-  },
+  // {
+  //   method: "GET",
+  //   path: "/rating",
+  //   handler: GetAllRating,
+  //   options: {
+  //     auth: false,
+  //   },
+  // },
   {
     method: "GET",
     path: "/book",
     handler: GetBook,
   },
+  // {
+  //   method: "GET",
+  //   path: "/book/all",
+  //   handler: GetAllBook,
+  //   options: {
+  //     auth: false,
+  //   },
+  // },
   {
-    method: "GET",
-    path: "/book/all",
-    handler: GetAllBook,
-    options: {
-      auth: false,
-    },
+    method: "POST",
+    path: "/rating",
+    handler: GetRatingFromId,
   },
   {
     method: "POST",
