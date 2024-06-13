@@ -21,8 +21,7 @@ import {
   InsertBookPreference,
   InsertGenrePreference,
 } from "../services/preference/handler";
-import { GetAllRating, GetRatingFromId } from "../services/rating/handler";
-import sendMail from "../mail";
+import { GetAllRating, GetRating, GetRatingFromId } from "../services/rating/handler";
 
 const route = [
   {
@@ -128,6 +127,11 @@ const route = [
     method: "POST",
     path: "/preference/book/add",
     handler: InsertBookPreference,
+  },
+  {
+    method: "POST",
+    path: "/book/rating",
+    handler: GetRating,
   },
 ];
 

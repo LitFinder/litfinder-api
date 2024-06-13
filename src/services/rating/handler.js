@@ -38,6 +38,12 @@ const GetRatingFromId = async (request, h) => {
       data: rating,
     });
   }
+const GetRating = async (request, h) => {
+  const { title } = request.payload ?? {
+    title: null,
+  };
+
+  const rating = await Rating.getRatingByTitle({ title });
 
   return h.response({
     status: "success",
@@ -45,4 +51,4 @@ const GetRatingFromId = async (request, h) => {
   });
 };
 
-export { GetAllRating, GetRatingFromId };
+export { GetAllRating, GetRatingFromId, GetRating };
