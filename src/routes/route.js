@@ -21,7 +21,7 @@ import {
   InsertBookPreference,
   InsertGenrePreference,
 } from "../services/preference/handler";
-import { GetAllRating, GetRating, GetRatingFromId } from "../services/rating/handler";
+import { GetAllRating, GetRatingFromId } from "../services/rating/handler";
 
 const route = [
   {
