@@ -41,7 +41,7 @@ const GetBook = async (request, h) => {
     });
 
     return h.response({
-      status: "success123",
+      status: "success",
       data: books,
     });
   }
