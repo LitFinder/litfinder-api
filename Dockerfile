@@ -8,6 +8,6 @@ COPY . .
 RUN npm install
 
 # expose port
-EXPOSE 5000
+EXPOSE 1234
 
 CMD [ "npm", "run", "start:dev" ]
