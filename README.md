@@ -27,7 +27,13 @@
   - [Insert Book Preference](#insert-book-preference)
 - [Forget Password](#forget-password)
   - [Send Kode Verif](#send-kode-verif)
-    [Change Password](#change-password)
+  - [Change Password](#change-password)
+- [Profile](#profile)
+  - [Update Picture](#update-picture)
+  - [Update Name](#update-name)
+  - [Update Bio](#update-bio)
+  - [Update Password](#update-password)
+
 
 ## Start Project
 
@@ -982,5 +988,212 @@ POST /change-password
 ```json
 {
   "message": "Password has been changed"
+}
+```
+
+## Profile
+
+> Need `token` to access API
+
+### Update Picture
+
+- Headers
+
+```http
+Authorization: <Token>
+Content-Type: application/json
+```
+
+- Path
+
+```http
+POST /profile/picture
+```
+
+- Body Request
+
+```javascript
+{
+  "user_id": integer | required,
+  "picture": file | required | MAX: 3MB,
+}
+```
+
+- Example Body Request
+
+```json
+{
+  "user_id": 1,
+  "picture": File()
+}
+```
+
+- Example Response
+
+```json
+{
+  "status": "success",
+  "message": "Profile picture updated successfully",
+  "newData": {
+    "id": 4,
+    "email": "mphstar@gmail.com",
+    "username": "mphstar",
+    "name": "Mphstar",
+    "bio": null,
+    "imageProfile": "https://storage.googleapis.com/c241-ps384-bucket/uploads/profile/1718437150694-Desktop_14.png",
+    "createdAt": "2024-06-13T10:17:21.000Z",
+    "updatedAt": "2024-06-13T10:17:21.000Z"
+  }
+}
+```
+
+### Update Name
+
+- Headers
+
+```http
+Authorization: <Token>
+Content-Type: application/json
+```
+
+- Path
+
+```http
+POST /profile/name
+```
+
+- Body Request
+
+```javascript
+{
+  "user_id": integer | required,
+  "name": string | required,
+}
+
+```
+
+- Example Body Request
+
+```json
+{
+  "user_id": 1,
+  "name": "Naisyuu"
+}
+```
+
+- Example Response
+
+```json
+{
+  "status": "success",
+  "message": "Name updated successfully",
+  "newData": {
+    "id": 1,
+    "email": "naisyuu21@gmail.com",
+    "username": "bintang",
+    "name": "Naisyuu",
+    "bio": "Let's have an adventure.",
+    "imageProfile": "https://storage.googleapis.com/c241-ps384-bucket/uploads/profile/1718436383598-Desktop_14.png",
+    "createdAt": "2024-06-13T05:29:44.000Z",
+    "updatedAt": "2024-06-13T05:29:44.000Z"
+  }
+}
+```
+
+### Update Bio
+
+- Headers
+
+```http
+Authorization: <Token>
+Content-Type: application/json
+```
+
+- Path
+
+```http
+POST /profile/bio
+```
+
+- Body Request
+
+```javascript
+{
+  "user_id": integer | required,
+  "bio": string | required,
+}
+
+```
+
+- Example Body Request
+
+```json
+{
+  "user_id": 1,
+  "bio": "Let's have an adventure."
+}
+```
+
+- Example Response
+
+```json
+{
+  "status": "success",
+  "message": "Bio updated successfully",
+  "newData": {
+    "id": 1,
+    "email": "naisyuu21@gmail.com",
+    "username": "bintang",
+    "name": "Naisyuu",
+    "bio": "Let's have an adventure.",
+    "imageProfile": "https://storage.googleapis.com/c241-ps384-bucket/uploads/profile/1718436383598-Desktop_14.png",
+    "createdAt": "2024-06-13T05:29:44.000Z",
+    "updatedAt": "2024-06-13T05:29:44.000Z"
+  }
+}
+```
+
+### Update Password
+
+- Headers
+
+```http
+Authorization: <Token>
+Content-Type: application/json
+```
+
+- Path
+
+```http
+POST /profile/password
+```
+
+- Body Request
+
+```javascript
+{
+  "user_id": integer | required,
+  "old_password": string | required,
+  "new_password": string | required,
+}
+
+```
+
+- Example Body Request
+
+```json
+{
+  "user_id": 1,
+  "old_password": "12345678",
+  "new_password": "123"
+}
+```
+
+- Example Response
+
+```json
+{
+  "status": "success",
+  "message": "Password updated successfully"
 }
 ```

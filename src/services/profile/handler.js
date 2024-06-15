@@ -168,7 +168,7 @@ const UpdateBio = async (request, h) => {
   return h
     .response({
       status: "success",
-      message: "Name updated successfully",
+      message: "Bio updated successfully",
       newData: profile,
     })
     .code(200);
