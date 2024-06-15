@@ -64,4 +64,21 @@ const InsertBookPreference = async (req, res) => {
     .code(500);
 };
 
-export { InsertGenrePreference, InsertBookPreference };
+const GetGenreByUserId = async (req, res) => {
+  const { user_id } = req.payload ?? { user_id: null };
+
+  if (!user_id) {
+    throw new InputError();
+  }
+
+  const genre = await Preference.getGenreByUserId(user_id);
+
+  return res
+    .response({
+      status: "success",
+      data: genre,
+    })
+    .code(200);
+};
+
+export { InsertGenrePreference, InsertBookPreference, GetGenreByUserId };

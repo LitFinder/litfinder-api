@@ -23,11 +23,11 @@
   - [Get All Genre](#get-all-genre)
 - [Preference](#preference)
   - [Insert Genre Preference](#insert-genre-preference)
+  - [Get Genre Preference User](#get-genre-preference-useer)
   - [Insert Book Preference](#insert-book-preference)
 - [Forget Password](#forget-password)
   - [Send Kode Verif](#send-kode-verif)
     [Change Password](#change-password)
-
 
 ## Start Project
 
@@ -806,6 +806,59 @@ POST /preference/genre/add
 {
   "status": "success",
   "data": "Preference has been inserted"
+}
+```
+
+### Get Genre Preference Useer
+
+- Headers
+
+```http
+Authorization: <Token>
+Content-Type: application/json
+```
+
+- Path
+
+```http
+POST /preference/genre/user
+```
+
+- Body Request
+
+```javascript
+{
+  "user_id": integer | required,
+}
+```
+
+- Example Body Request
+
+```json
+{
+  "user_id": 1
+}
+```
+
+- Example Response
+
+```json
+{
+  "status": "success",
+  "data": [
+    {
+      "id": 1,
+      "name": "Religion"
+    },
+    {
+      "id": 2,
+      "name": "Biography & Autobiography"
+    },
+    {
+      "id": 5,
+      "name": "Foreign Language Study"
+    }
+  ]
 }
 ```
 
