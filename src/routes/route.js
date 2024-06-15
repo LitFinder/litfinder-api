@@ -4,7 +4,11 @@ import {
   ForgetPassword,
   RegisterUser,
 } from "../services/auth/handler";
-import { UpdateProfile, getProfile } from "../services/profile/handler";
+import {
+  UpdatePicture,
+  UpdateProfile,
+  getProfile,
+} from "../services/profile/handler";
 import {
   BooksRecommendation,
   GetAllBook,
@@ -133,6 +137,20 @@ const route = [
     method: "POST",
     path: "/preference/genre/user",
     handler: GetGenreByUserId,
+  },
+  {
+    method: "POST",
+    path: "/profile/picture",
+    handler: UpdatePicture,
+    // buat gambar
+    options: {
+      payload: {
+        output: "stream",
+        multipart: true,
+        allow: ["multipart/form-data"],
+        maxBytes: 2 * 1000 * 1000,
+      },
+    },
   },
 ];
 
