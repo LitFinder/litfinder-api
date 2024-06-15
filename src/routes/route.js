@@ -5,6 +5,9 @@ import {
   RegisterUser,
 } from "../services/auth/handler";
 import {
+  UpdateBio,
+  UpdateName,
+  UpdatePassword,
   UpdatePicture,
   UpdateProfile,
   getProfile,
@@ -148,9 +151,24 @@ const route = [
         output: "stream",
         multipart: true,
         allow: ["multipart/form-data"],
-        maxBytes: 2 * 1000 * 1000,
+        maxBytes: 3 * 1000 * 1000,
       },
     },
+  },
+  {
+    method: "POST",
+    path: "/profile/name",
+    handler: UpdateName,
+  },
+  {
+    method: "POST",
+    path: "/profile/bio",
+    handler: UpdateBio,
+  },
+  {
+    method: "POST",
+    path: "/profile/password",
+    handler: UpdatePassword,
   },
 ];
 

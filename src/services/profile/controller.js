@@ -11,6 +11,16 @@ const Profile = {
 
     return results[0];
   },
+  
+  getProfilePassword: async ({ user_id }) => {
+    const db = await getConnection();
+    const sql = `SELECT id, password FROM user WHERE id = ${user_id}`;
+    const [results] = await db.execute(sql);
+
+    db.end();
+
+    return results[0];
+  },
 
   updateUserProfile: async ({ column, value, user_id }) => {
     if (!column || !value) {
