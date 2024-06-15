@@ -3,7 +3,6 @@ FROM node:18-alpine
 WORKDIR /app
 
 COPY . .
-COPY auth.json .
 
 # install library
 RUN npm install
