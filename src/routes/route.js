@@ -18,6 +18,7 @@ import {
 import { GetGenre } from "../services/genre/handler";
 import { SendLog } from "../services/log/handler";
 import {
+  GetGenreByUserId,
   InsertBookPreference,
   InsertGenrePreference,
 } from "../services/preference/handler";
@@ -127,6 +128,11 @@ const route = [
     method: "POST",
     path: "/preference/book/add",
     handler: InsertBookPreference,
+  },
+  {
+    method: "POST",
+    path: "/preference/genre/user",
+    handler: GetGenreByUserId,
   },
 ];
 
