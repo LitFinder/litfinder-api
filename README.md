@@ -1034,16 +1034,7 @@ POST /profile/picture
 {
   "status": "success",
   "message": "Profile picture updated successfully",
-  "newData": {
-    "id": 4,
-    "email": "mphstar@gmail.com",
-    "username": "mphstar",
-    "name": "Mphstar",
-    "bio": null,
-    "imageProfile": "https://storage.googleapis.com/c241-ps384-bucket/uploads/profile/1718437150694-Desktop_14.png",
-    "createdAt": "2024-06-13T10:17:21.000Z",
-    "updatedAt": "2024-06-13T10:17:21.000Z"
-  }
+  "newImage": "https://storage.googleapis.com/c241-ps384-bucket/uploads/profile/1718437150694-Desktop_14.png",
 }
 ```
 
