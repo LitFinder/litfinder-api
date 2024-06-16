@@ -69,6 +69,8 @@ const UpdatePicture = async (request, h) => {
     }
   }
 
+  const newImage = `https://storage.googleapis.com/${bucket.name}/uploads/profile/${randomName}`;
+
   file.save(data, (err) => {
     if (err) {
       console.log(err);
@@ -77,17 +79,16 @@ const UpdatePicture = async (request, h) => {
 
     Profile.updateUserProfile({
       column: "imageProfile",
-      value: `https://storage.googleapis.com/${bucket.name}/uploads/profile/${randomName}`,
+      value: newImage,
       user_id,
     });
   });
-
-  const profile = await Profile.getProfile({ user_id });
+  
   return h
     .response({
       status: "success",
       message: "Profile picture updated successfully",
-      newData: profile,
+      newImage,
     })
     .code(200);
 };
@@ -229,8 +230,7 @@ const UpdatePassword = async (request, h) => {
   }
 
   // compare menggunakan crypto md5
-  const isValid = profile.password === await hashPassword(old_password);
-
+  const isValid = profile.password === (await hashPassword(old_password));
 
   if (!isValid) {
     return h
@@ -248,7 +248,6 @@ const UpdatePassword = async (request, h) => {
     value: hashedPassword,
     user_id,
   });
-  
 
   return h
     .response({
