@@ -33,6 +33,15 @@ const Preference = {
 
     return true;
   },
+  getGenreByUserId: async (userId) => {
+    const db = await getConnection();
+    const sql = `SELECT genre.id, genre.name FROM preference_genre JOIN genre ON preference_genre.genre_id = genre.id WHERE preference_genre.user_id = ${userId}`;
+    const [results] = await db.execute(sql);
+
+    db.end();
+
+    return results;
+  },
 };
 
 export { Preference };

@@ -4,12 +4,36 @@ import hashPassword from "../../utils/hashPassword";
 const Profile = {
   getProfile: async ({ user_id }) => {
     const db = await getConnection();
-    const sql = "SELECT * FROM user WHERE user_id =?";
-    const [results] = await db.execute(sql, [user_id]);
+    const sql = `SELECT id, email, username, name, bio, imageProfile, createdAt, updatedAt FROM user WHERE id = ${user_id}`;
+    const [results] = await db.execute(sql);
 
     db.end();
 
     return results[0];
+  },
+  
+  getProfilePassword: async ({ user_id }) => {
+    const db = await getConnection();
+    const sql = `SELECT id, password FROM user WHERE id = ${user_id}`;
+    const [results] = await db.execute(sql);
+
+    db.end();
+
+    return results[0];
+  },
+
+  updateUserProfile: async ({ column, value, user_id }) => {
+    if (!column || !value) {
+      throw new Error("No column or value provided");
+    }
+
+    const db = await getConnection();
+    const sql = `UPDATE user SET ${column} = "${value}" WHERE id = ${user_id}`;
+    const [results] = await db.execute(sql);
+
+    db.end();
+
+    return results;
   },
 
   updateProfile: async ({ user_id, name, password }) => {

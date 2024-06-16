@@ -3,7 +3,7 @@ const database = {
   user: process.env.SQLUSER,
   password: process.env.SQLPASSWORD,
   database: process.env.SQLDATABASE,
-  port: process.env.PORT,
+  port: process.env.SQLPORT,
 };
 
 const getConnection = async () => {
