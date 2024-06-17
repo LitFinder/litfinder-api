@@ -71,7 +71,7 @@ const addRating = async (req, res) => {
     reviewScore,
     reviewSummary,
     reviewText,
-    book_id
+    book_id,
   } = req.payload ?? {
     user_id: null,
     profileName: null,
@@ -79,7 +79,7 @@ const addRating = async (req, res) => {
     reviewScore: null,
     reviewSummary: null,
     reviewText: null,
-    book_id: null
+    book_id: null,
   };
 
   if (
@@ -103,6 +103,36 @@ const addRating = async (req, res) => {
     reviewSummary,
     reviewText,
   });
+
+  // user_id to string
+  
+
+  try {
+    const insertRating = await fetch(`http://34.128.127.72/add_rating`, {
+      method: "POST",
+      body: JSON.stringify({
+        id: rating.insertId,
+        book_id,
+        price: 0,
+        user_id: user_id.toString(),
+        profileName,
+        review_helpfulness: reviewHelpfulness,
+        review_score: reviewScore,
+        review_time: 0,
+        review_summary: reviewSummary,
+        review_text: reviewText,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const result = await insertRating.json();
+
+    console.log(result);
+  } catch (error) {
+    console.log(error);
+  }
 
   if (rating) {
     return rating.insertId;

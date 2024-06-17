@@ -30,7 +30,7 @@ const GetBook = async (request, h) => {
     });
   }
 
-  if (rating) {
+  if (rating && books.length != 0) {
     const ratingBook = await Rating.getRating({
       ids: books.map((book) => book.id),
     });
@@ -75,31 +75,28 @@ const BooksRecommendation = async (request, h) => {
   };
 
   // from ml
-  const resultRecomendation = [5, 31, 33, 42, 45, 47, 120, 125, 128];
+  // const resultRecomendation = [5, 31, 33, 42, 45, 47, 120, 125, 128];
   // end from ml
 
   // comment connect to ml
-  // const dataId = logUser.data.map((data) => data.id);
+  const dataId = logUser.data.map((data) => data.id);
 
-  // const recommendation = await fetch(
-  //   "https://8e01-103-168-190-2.ngrok-free.app/recommendation",
-  //   {
-  //     method: "POST",
-  //     body: JSON.stringify({
-  //       id_book: dataId,
-  //     }),
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   }
-  // );
+  const recommendation = await fetch("http://34.128.127.72/recommendation", {
+    method: "POST",
+    body: JSON.stringify({
+      id_book: dataId,
+    }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
-  // const ress = await recommendation.json();
-  // // from ml
-  // const resultRecomendation = ress.recommendations;
+  const ress = await recommendation.json();
+  // from ml
+  const resultRecomendation = ress.recommendations;
 
   // console.log(resultRecomendation);
-  // // end from ml
+  // end from ml
 
   const books = await Book.getBookByIds({
     ids: resultRecomendation.map((id) => id),
@@ -114,7 +111,7 @@ const BooksRecommendation = async (request, h) => {
     });
   }
 
-  if (rating) {
+  if (rating && books.length != 0) {
     const ratingBook = await Rating.getRating({
       ids: books.map((book) => book.id),
     });
@@ -136,4 +133,165 @@ const BooksRecommendation = async (request, h) => {
   });
 };
 
-export { GetBook, BooksRecommendation, GetAllBook };
+const ColabBook = async (request, h) => {
+  const { limit, page, rating } = request.query;
+  const { book_id } = request.payload ?? {
+    book_id: null,
+  };
+
+  if (!book_id) {
+    return h
+      .response({
+        status: "fail",
+        message: "Book id is required",
+      })
+      .code(400);
+  }
+
+  if (limit && limit == 0) {
+    return h
+      .response({
+        status: "fail",
+        message: "Amount must be greater than 0",
+      })
+      .code(400);
+  }
+
+  const book = await Book.findBook({ id: book_id });
+
+  const simmilarBook = await Book.getBookByCategory({
+    category: book[0].categories,
+    limit: limit,
+    page: page,
+  });
+
+  if (rating && simmilarBook.length != 0) {
+    const ratingBook = await Rating.getRating({
+      ids: simmilarBook.map((book) => book.id),
+    });
+
+    simmilarBook.forEach((book) => {
+      const rating = ratingBook.filter((rating) => rating.book_id === book.id);
+      book.rating = rating;
+    });
+  }
+
+  const recommendation = await fetch(
+    `http://34.128.127.72/colabBook/?id_book=${book_id}&amount=${limit ?? 10}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  let result = [0];
+
+  const ress = await recommendation.json();
+
+  if (recommendation.status != 404) {
+    result = ress.recommendations.map((book) => book);
+  }
+
+  const recommendationBook = await Book.getBookByIds({
+    ids: result.map((id) => id),
+    limit,
+    page,
+  });
+
+  if (rating && recommendationBook.length != 0) {
+    const ratingBook = await Rating.getRating({
+      ids: recommendationBook.map((book) => book.id),
+    });
+
+    recommendationBook.forEach((book) => {
+      const rating = ratingBook.filter((rating) => rating.book_id === book.id);
+      book.rating = rating;
+    });
+  }
+
+  const resultEnd = {
+    recommendation: recommendationBook,
+    fromCategory: simmilarBook,
+  };
+
+  return h.response({
+    status: "success",
+    data: resultEnd,
+  });
+};
+
+const ColabUser = async (request, h) => {
+  const { limit, page, rating } = request.query;
+  const { user_id } = request.payload ?? {
+    user_id: null,
+  };
+
+  if (!user_id) {
+    return h
+      .response({
+        status: "fail",
+        message: "Book id is required",
+      })
+      .code(400);
+  }
+
+  if (limit && limit == 0) {
+    return h
+      .response({
+        status: "fail",
+        message: "Amount must be greater than 0",
+      })
+      .code(400);
+  }
+
+  const recommendation = await fetch(
+    `http://34.128.127.72/colabUser/?user_id=${user_id}&amount=${limit ?? 10}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  let result = [0];
+
+  if (recommendation.status == 500) {
+    return h.response({
+      status: "success",
+      data: [],
+    });
+  }
+
+  const ress = await recommendation.json();
+
+  if (recommendation.status != 404) {
+    result = ress.recommendations.map((book) => book);
+  }
+
+  const recommendationBook = await Book.getBookByIds({
+    ids: result.map((id) => id),
+    limit,
+    page,
+  });
+
+  if (rating && recommendationBook.length != 0) {
+    const ratingBook = await Rating.getRating({
+      ids: recommendationBook.map((book) => book.id),
+    });
+
+    recommendationBook.forEach((book) => {
+      const rating = ratingBook.filter((rating) => rating.book_id === book.id);
+      book.rating = rating;
+    });
+  }
+
+  return h.response({
+    status: "success",
+    data: recommendationBook,
+  });
+};
+
+export { GetBook, BooksRecommendation, GetAllBook, ColabBook, ColabUser };
