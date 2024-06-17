@@ -194,7 +194,6 @@ const ColabBook = async (request, h) => {
     result = ress.recommendations.map((book) => book);
   }
 
-
   const recommendationBook = await Book.getBookByIds({
     ids: result.map((id) => id),
     limit,
@@ -217,12 +216,82 @@ const ColabBook = async (request, h) => {
     fromCategory: simmilarBook,
   };
 
-  
-
   return h.response({
     status: "success",
     data: resultEnd,
   });
 };
 
-export { GetBook, BooksRecommendation, GetAllBook, ColabBook };
+const ColabUser = async (request, h) => {
+  const { limit, page, rating } = request.query;
+  const { user_id } = request.payload ?? {
+    user_id: null,
+  };
+
+  if (!user_id) {
+    return h
+      .response({
+        status: "fail",
+        message: "Book id is required",
+      })
+      .code(400);
+  }
+
+  if (limit && limit == 0) {
+    return h
+      .response({
+        status: "fail",
+        message: "Amount must be greater than 0",
+      })
+      .code(400);
+  }
+
+  const recommendation = await fetch(
+    `http://34.128.127.72/colabUser/?user_id=${user_id}&amount=${limit ?? 10}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  let result = [0];
+
+  if (recommendation.status == 500) {
+    return h.response({
+      status: "success",
+      data: [],
+    });
+  }
+
+  const ress = await recommendation.json();
+
+  if (recommendation.status != 404) {
+    result = ress.recommendations.map((book) => book);
+  }
+
+  const recommendationBook = await Book.getBookByIds({
+    ids: result.map((id) => id),
+    limit,
+    page,
+  });
+
+  if (rating && recommendationBook.length != 0) {
+    const ratingBook = await Rating.getRating({
+      ids: recommendationBook.map((book) => book.id),
+    });
+
+    recommendationBook.forEach((book) => {
+      const rating = ratingBook.filter((rating) => rating.book_id === book.id);
+      book.rating = rating;
+    });
+  }
+
+  return h.response({
+    status: "success",
+    data: recommendationBook,
+  });
+};
+
+export { GetBook, BooksRecommendation, GetAllBook, ColabBook, ColabUser };
