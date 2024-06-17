@@ -14,6 +14,7 @@ import {
 } from "../services/profile/handler";
 import {
   BooksRecommendation,
+  ColabBook,
   GetAllBook,
   GetBook,
 } from "../services/book/handler";
@@ -105,6 +106,11 @@ const route = [
     method: "POST",
     path: "/recommendation",
     handler: BooksRecommendation,
+  },
+  {
+    method: "POST",
+    path: "/recommendation/colabBook",
+    handler: ColabBook,
   },
   {
     method: "POST",

@@ -13,7 +13,7 @@ const Log = {
 
   getLogByUserId: async ({ userId }) => {
     const db = await getConnection();
-    const sql = `SELECT * FROM log JOIN book ON book.id=log.book_id WHERE user_id = ${userId} GROUP BY book_id ORDER BY createdAt DESC LIMIT 10`;
+    const sql = `SELECT * FROM log WHERE user_id = ${userId} GROUP BY book_id ORDER BY createdAt DESC LIMIT 10`;
     const [results] = await db.execute(sql);
 
     db.end();
