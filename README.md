@@ -10,6 +10,8 @@
 - [Book](#book)
   - [Get All Book](#get-all-book)
   - [Get Recommendation Book](#get-recommendation-book)
+  - [Collaboration Book](#get-recommendation-book--collaboration-book)
+  - [Collaboration User](#get-recommendation-book--collaboration-user)
 - [Rating](#rating)
   - [Get Rating from Book ID](#get-rating-from-book-id)
 - [Logging](#logging)
@@ -33,7 +35,6 @@
   - [Update Name](#update-name)
   - [Update Bio](#update-bio)
   - [Update Password](#update-password)
-
 
 ## Start Project
 
@@ -388,6 +389,352 @@ POST /recommendation
           "reviewScore": 4,
           "reviewSummary": "Christ is Lord",
           "reviewText": "This is a very use..."
+        }
+      ]
+    }
+  ]
+}
+```
+
+### Get Recommendation Book | Collaboration Book
+
+- Headers
+
+```http
+Authorization: <Token>
+Content-Type: application/json
+```
+
+- Path
+
+```http
+POST /recommendation/colabBook
+```
+
+- Params Request
+
+```javascript
+{
+  "limit": integer | optional (default: 10),
+  "page": integer | optional (default: 1),
+  "rating": "true" | optional
+}
+```
+
+- Example Params Request
+
+```text
+/recommendation/colabBook?limit=10&page=1
+```
+
+- Example Params Request with Rating
+
+```text
+/recommendation/colabBook?limit=10&page=1&rating=true
+```
+
+> If you put `rating` in params, rating will appear together with the book data
+
+- Body Request
+
+```javascript
+{
+  "book_id": integer | required,
+}
+```
+
+- Example Body Request
+
+```json
+{
+  "book_id": 1
+}
+```
+
+- Example Response Without Rating
+
+```json
+{
+  "status": "success",
+  "data": {
+    "recommendation": [
+      {
+        "title": "In Search of Lost Roses",
+        "description": "NEW YORK TIMES BESTSELLER • Th...",
+        "authors": "['Martha Hall Kelly']",
+        "image": "http://books.google.com/books/con...",
+        "previewLink": "http://books.google.com/book...",
+        "publisher": "Ballantine Books",
+        "publishedDate": "2019-04-09",
+        "infoLink": "https://play.google.com/sto...",
+        "categories": "['Fiction']",
+        "ratingsCount": 19,
+        "id": 38127
+      },
+      {
+        "title": "The New Rabbi",
+        "description": "The author of Thing of B...",
+        "authors": "['Stephen Fried']",
+        "image": "http://books.google.com/book..",
+        "publisher": "Bantam",
+        "publishedDate": "2003",
+        "infoLink": "http://books.google.com...",
+        "categories": "['Biography & Autobiography']",
+        "ratingsCount": 1,
+        "id": 35906
+      }
+    ],
+    "fromCategory": [
+      {
+        "title": "The Gifted Adult: A Revolutio...",
+        "description": "Are you relentlessly curious a...",
+        "authors": "['Mary-Elaine Jacobsen']",
+        "image": "http://books.google.com/books/conte...",
+        "previewLink": "http://books.google.nl/books?id=...",
+        "publisher": "Ballantine Books",
+        "publishedDate": "2015-02-18",
+        "infoLink": "https://play.google.com/store/b...",
+        "categories": "['Psychology']",
+        "ratingsCount": 1,
+        "id": 96
+      },
+      {
+        "title": "Healing Life's Hurts: Healing...",
+        "description": "\"Explores the concept of emoti...",
+        "authors": "['Matthew Linn', 'Dennis Linn']",
+        "image": "http://books.google.com/boo..",
+        "previewLink": "http://books.google.nl/...",
+        "publisher": "Paulist Press",
+        "publishedDate": "1978",
+        "infoLink": "https://play.google.com/...",
+        "categories": "['Psychology']",
+        "ratingsCount": 1,
+        "id": 151
+      }
+    ]
+  }
+}
+```
+
+- Example Response With Rating
+
+```json
+{
+  "status": "success",
+  "data": {
+    "recommendation": [
+      {
+        "title": "In Search of Lost Roses",
+        "description": "NEW YORK TIMES BESTSELLER • Th...",
+        "authors": "['Martha Hall Kelly']",
+        "image": "http://books.google.com/books/con...",
+        "previewLink": "http://books.google.com/book...",
+        "publisher": "Ballantine Books",
+        "publishedDate": "2019-04-09",
+        "infoLink": "https://play.google.com/sto...",
+        "categories": "['Fiction']",
+        "ratingsCount": 19,
+        "id": 38127,
+        "rating": [
+          {
+            "id": 152394,
+            "user_id": "A1CBSK32XO02QK",
+            "book_id": 38127,
+            "profileName": "_willow_11_",
+            "reviewHelpfulness": "25/25",
+            "reviewScore": 5,
+            "reviewSummary": "~a life-long collect....~",
+            "reviewText": "There are few books in my ga..."
+          }
+        ]
+      },
+      {
+        "title": "The New Rabbi",
+        "description": "The author of Thing of B...",
+        "authors": "['Stephen Fried']",
+        "image": "http://books.google.com/book..",
+        "publisher": "Bantam",
+        "publishedDate": "2003",
+        "infoLink": "http://books.google.com...",
+        "categories": "['Biography & Autobiography']",
+        "ratingsCount": 1,
+        "id": 35906,
+        "rating": [
+          {
+            "id": 144932,
+            "user_id": "A17437N1L775IJ",
+            "book_id": 35906,
+            "profileName": "Janet Gerber",
+            "reviewHelpfulness": "0/0",
+            "reviewScore": 4,
+            "reviewSummary": "fascinating read...",
+            "reviewText": "I read this and also gifte..."
+          }
+        ]
+      }
+    ],
+    "fromCategory": [
+      {
+        "title": "The Gifted Adult: A Revolutio...",
+        "description": "Are you relentlessly curious a...",
+        "authors": "['Mary-Elaine Jacobsen']",
+        "image": "http://books.google.com/books/conte...",
+        "previewLink": "http://books.google.nl/books?id=...",
+        "publisher": "Ballantine Books",
+        "publishedDate": "2015-02-18",
+        "infoLink": "https://play.google.com/store/b...",
+        "categories": "['Psychology']",
+        "ratingsCount": 1,
+        "id": 96,
+        "rating": [
+          {
+            "id": 6495,
+            "user_id": "A38HE3WVG1E3EG",
+            "book_id": 96,
+            "profileName": "Peter Messerschmidt \"denmarkguy\"",
+            "reviewHelpfulness": "119/121",
+            "reviewScore": 5,
+            "reviewSummary": "An Important and Possibly Lif..",
+            "reviewText": "&quot;The Gifted Adult&quot.."
+          }
+        ]
+      },
+      {
+        "title": "Healing Life's Hurts: Healing...",
+        "description": "\"Explores the concept of emoti...",
+        "authors": "['Matthew Linn', 'Dennis Linn']",
+        "image": "http://books.google.com/boo..",
+        "previewLink": "http://books.google.nl/...",
+        "publisher": "Paulist Press",
+        "publishedDate": "1978",
+        "infoLink": "https://play.google.com/...",
+        "categories": "['Psychology']",
+        "ratingsCount": 1,
+        "id": 151,
+        "rating": []
+      }
+    ]
+  }
+}
+```
+
+### Get Recommendation Book | Collaboration User
+
+- Headers
+
+```http
+Authorization: <Token>
+Content-Type: application/json
+```
+
+- Path
+
+```http
+POST /recommendation/colabUser
+```
+
+- Params Request
+
+```javascript
+{
+  "limit": integer | optional (default: 10),
+  "page": integer | optional (default: 1),
+  "rating": "true" | optional
+}
+```
+
+- Example Params Request
+
+```text
+/recommendation/colabUser?limit=10&page=1
+```
+
+- Example Params Request with Rating
+
+```text
+/recommendation/colabUser?limit=10&page=1&rating=true
+```
+
+> If you put `rating` in params, rating will appear together with the book data
+
+- Body Request
+
+```javascript
+{
+  "user_id": String | required,
+}
+```
+
+- Example Body Request
+
+```json
+{
+  "user_id": "A3NDZCQ9D9T2XM"
+}
+```
+
+- Example Response Without Rating
+
+```json
+{
+  "status": "success",
+  "data": [
+    {
+      "title": "Advanced Programming in the UNIX Environment (2nd Edition)",
+      "description": "For more than twenty years, serious C pr..",
+      "authors": "['W. Richard Stevens', 'Stephen A. Rago']",
+      "image": "http://books.google.com/books/con..",
+      "previewLink": "http://books.google.nl/book..",
+      "publisher": "Addison-Wesley",
+      "publishedDate": "2013-06-10",
+      "infoLink": "https://play.google.com/st...",
+      "categories": "['Computers']",
+      "ratingsCount": 6,
+      "id": 971
+    }
+  ]
+}
+```
+
+- Example Response With Rating
+
+```json
+{
+  "status": "success",
+  "data": [
+    {
+      "title": "Advanced Programming in the UNIX Environment (2nd Edition)",
+      "description": "For more than twenty years, serious C pr..",
+      "authors": "['W. Richard Stevens', 'Stephen A. Rago']",
+      "image": "http://books.google.com/books/con..",
+      "previewLink": "http://books.google.nl/book..",
+      "publisher": "Addison-Wesley",
+      "publishedDate": "2013-06-10",
+      "infoLink": "https://play.google.com/st...",
+      "categories": "['Computers']",
+      "ratingsCount": 6,
+      "id": 971,
+      "rating": [
+        {
+          "id": 34077,
+          "user_id": "AG35NEEFCMQVR",
+          "book_id": 971,
+          "profileName": "W Boudville",
+          "reviewHelpfulness": "29/29",
+          "reviewScore": 5,
+          "reviewSummary": "superb update of the first edition",
+          "reviewText": "Many of you who learnt unix i.."
+        },
+
+        {
+          "id": 34131,
+          "user_id": "A3M3XHSQJMXHDA",
+          "book_id": 971,
+          "profileName": "Rujirek",
+          "reviewHelpfulness": "2/3",
+          "reviewScore": 5,
+          "reviewSummary": "Easy for learning",
+          "reviewText": "This text book is easy for anyone who study about computer directly and has some experience with Linux. It give you both of knowlege and C source code example.if you want to know about Unix and others unix-based operating system, I recommend it."
         }
       ]
     }
@@ -1034,7 +1381,7 @@ POST /profile/picture
 {
   "status": "success",
   "message": "Profile picture updated successfully",
-  "newImage": "https://storage.googleapis.com/c241-ps384-bucket/uploads/profile/1718437150694-Desktop_14.png",
+  "newImage": "https://storage.googleapis.com/c241-ps384-bucket/uploads/profile/1718437150694-Desktop_14.png"
 }
 ```
 
