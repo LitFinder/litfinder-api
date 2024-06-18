@@ -81,7 +81,7 @@ const BooksRecommendation = async (request, h) => {
   // comment connect to ml
   const dataId = logUser.data.map((data) => data.id);
 
-  const recommendation = await fetch("http://34.128.127.72/recommendation", {
+  const recommendation = await fetch("${process.env.MLURL}/recommendation", {
     method: "POST",
     body: JSON.stringify({
       id_book: dataId,
@@ -177,7 +177,7 @@ const ColabBook = async (request, h) => {
   }
 
   const recommendation = await fetch(
-    `http://34.128.127.72/colabBook/?id_book=${book_id}&amount=${limit ?? 10}`,
+    `${process.env.MLURL}/colabBook/?id_book=${book_id}&amount=${limit ?? 10}`,
     {
       method: "POST",
       headers: {
@@ -247,7 +247,7 @@ const ColabUser = async (request, h) => {
   }
 
   const recommendation = await fetch(
-    `http://34.128.127.72/colabUser/?user_id=${user_id}&amount=${limit ?? 10}`,
+    `${process.env.MLURL}/colabUser/?user_id=${user_id}&amount=${limit ?? 10}`,
     {
       method: "POST",
       headers: {

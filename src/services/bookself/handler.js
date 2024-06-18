@@ -108,7 +108,7 @@ const addRating = async (req, res) => {
   
 
   try {
-    const insertRating = await fetch(`http://34.128.127.72/add_rating`, {
+    const insertRating = await fetch(`${process.env.MLURL}/add_rating`, {
       method: "POST",
       body: JSON.stringify({
         id: rating.insertId,
