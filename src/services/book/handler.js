@@ -81,7 +81,7 @@ const BooksRecommendation = async (request, h) => {
   // comment connect to ml
   const dataId = logUser.data.map((data) => data.id);
 
-  const recommendation = await fetch("${process.env.MLURL}/recommendation", {
+  const recommendation = await fetch(`${process.env.MLURL}/recommendation`, {
     method: "POST",
     body: JSON.stringify({
       id_book: dataId,
