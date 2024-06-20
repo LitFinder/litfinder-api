@@ -38,7 +38,12 @@
 
 ## Start Project
 
-1. Clone the repository
+1. Import SQL file to your database
+```
+https://drive.google.com/drive/folders/1lq89LDQnEzM58WWjN5HRV6H3zUk5cL1A
+```
+
+2. Clone the repository
 
 ```
 git clone https://github.com/LitFinder
@@ -67,6 +72,10 @@ cp .env.example .env
 ```
 npm run start:dev
 ```
+
+## Cloud Architecture
+![Cloud Architecture](https://github.com/LitFinder/litfinder-api/assets/99628945/c058e150-f544-432e-8068-832d8360fb63)
+
 
 ## API Documentation
 
